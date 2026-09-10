@@ -1,0 +1,76 @@
+name: QA Discord Notification
+
+on:
+  push:
+    branches:
+      - main
+
+    paths:
+      - "projects/**"
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Get changed QA files
+        id: changed
+        shell: bash
+        run: |
+          FILES=$(git diff --name-only HEAD^ HEAD -- 'projects/**')
+
+          echo "files<<EOF" >> "$GITHUB_OUTPUT"
+          echo "$FILES" >> "$GITHUB_OUTPUT"
+          echo "EOF" >> "$GITHUB_OUTPUT"
+
+      - name: Detect project
+        id: project
+        shell: bash
+        run: |
+          FIRST_FILE=$(echo "${{ steps.changed.outputs.files }}" | head -n 1)
+          PROJECT=$(echo "$FIRST_FILE" | cut -d'/' -f2)
+
+          echo "name=$PROJECT" >> "$GITHUB_OUTPUT"
+
+      - name: Send Discord notification
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          CHANGED_FILES: ${{ steps.changed.outputs.files }}
+          PROJECT_NAME: ${{ steps.project.outputs.name }}
+          REPOSITORY: ${{ github.repository }}
+          ACTOR: ${{ github.actor }}
+          COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
+          COMMIT_URL: ${{ github.event.head_commit.url }}
+
+        shell: bash
+        run: |
+          payload=$(jq -n \
+            --arg project "$PROJECT_NAME" \
+            --arg repo "$REPOSITORY" \
+            --arg actor "$ACTOR" \
+            --arg message "$COMMIT_MESSAGE" \
+            --arg files "$CHANGED_FILES" \
+            --arg url "$COMMIT_URL" \
+            '{
+              content:
+                ("🧪 **QA Documentation Updated**\n\n" +
+                 "**Project:** " + $project + "\n" +
+                 "**Repository:** " + $repo + "\n" +
+                 "**Updated by:** " + $actor + "\n\n" +
+                 "**Commit:** " + $message + "\n\n" +
+                 "**Changed files:**\n```" +
+                 $files +
+                 "```\n" +
+                 "**View changes:** " + $url)
+            }')
+
+          curl \
+            -H "Content-Type: application/json" \
+            -X POST \
+            -d "$payload" \
+            "$DISCORD_WEBHOOK_URL"
