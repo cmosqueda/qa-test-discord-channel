@@ -1,0 +1,147 @@
+---
+type: regression-report
+project:
+release:
+environment:
+regression_date:
+tester:
+status:
+passed: 0
+failed: 0
+blocked: 0
+not_tested: 0
+---
+
+# Regression Test Report — [Release / Sprint / Build]
+
+## Regression Information
+
+- **Project:**
+- **Release / Sprint:**
+- **Environment:**
+- **Date:**
+- **Tester:**
+- **Build / Version:**
+- **Branch:**
+- **Related PR / Release:**
+
+## Objective
+
+Verify that recent changes have not broken previously working functionality across affected and high-risk areas.
+
+## Change Summary
+
+Summarize the changes that triggered the regression.
+
+-
+-
+-
+
+## Affected Modules
+
+-
+-
+-
+
+## Risk Areas
+
+Identify areas with the highest chance of being affected.
+
+- Authentication / Permissions
+- Shared APIs
+- Database changes
+- Navigation
+- Cross-role access
+- Related workflows
+- Other:
+
+## Regression Scope
+
+### Critical Flows
+
+- [ ] Login / Logout
+- [ ] Role-based access
+- [ ] Core create flow
+- [ ] Core update flow
+- [ ] Core delete flow
+- [ ] Submission / confirmation flow
+- [ ] Data persistence
+- [ ] Error handling
+
+### Feature-Specific Coverage
+
+- [ ]
+- [ ]
+- [ ]
+
+### Cross-Feature Coverage
+
+- [ ]
+- [ ]
+- [ ]
+
+## Regression Test Results
+
+| Test ID | Module | Scenario | Priority | Result                | Bug ID | Notes |
+| ------- | ------ | -------- | -------- | --------------------- | ------ | ----- |
+| REG-001 |        |          | High     | PASS / FAIL / BLOCKED |        |       |
+| REG-002 |        |          | High     | PASS / FAIL / BLOCKED |        |       |
+| REG-003 |        |          | Medium   | PASS / FAIL / BLOCKED |        |       |
+
+## Results Summary
+
+- **Total Tests:** 0
+- **Passed:** 0
+- **Failed:** 0
+- **Blocked:** 0
+- **Not Tested:** 0
+
+## Defects Found
+
+| Bug ID | Module | Issue | Severity | Status |
+| ------ | ------ | ----- | -------- | ------ |
+|        |        |       |          |        |
+
+## Existing Defects Rechecked
+
+| Bug ID | Previous Status | Retest Result | Current Status |
+| ------ | --------------- | ------------- | -------------- |
+|        |                 | PASS / FAIL   |                |
+
+## Areas Not Tested
+
+Document anything excluded from this regression.
+
+-
+-
+
+## Blockers
+
+- None
+
+## Observations
+
+-
+-
+
+## Release Assessment
+
+**Regression Status:** PASS / PASS WITH ISSUES / FAIL / BLOCKED
+
+### Recommendation
+
+Choose one:
+
+- Safe to release
+- Safe to release with known issues
+- Requires fixes before release
+- Requires additional regression testing
+- Release should be blocked
+
+## Follow-up Actions
+
+- [ ] Fix failed regression cases
+- [ ] Retest resolved defects
+- [ ] Run targeted regression
+- [ ] Update bug reports
+- [ ] Confirm release readiness
